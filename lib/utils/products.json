@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "name": "Apple",
+    "price": 1.2,
+    "image": "apple.png",
+    "category": "Fruits"
+  },
+  {
+    "id": 2,
+    "name": "Banana",
+    "price": 0.5,
+    "image": "banana.jpg",
+    "category": "Fruits"
+  },
+  {
+    "id": 3,
+    "name": "Orange",
+    "price": 0.8,
+    "image": "orange.jpg",
+    "category": "Fruits"
+  },
+  {
+    "id": 4,
+    "name": "Grapes",
+    "price": 1.8,
+    "image": "grapes.jpg",
+    "category": "Fruits"
+  },
+  {
+    "id": 5,
+    "name": "Watermelon",
+    "price": 3.0,
+    "image": "watermelon.jpg",
+    "category": "Fruits"
+  },
+  {
+    "id": 6,
+    "name": "Carrot",
+    "price": 0.8,
+    "image": "carrot.jpg",
+    "category": "Vegetables"
+  },
+  {
+    "id": 7,
+    "name": "Potato",
+    "price": 0.6,
+    "image": "potato.jpg",
+    "category": "Vegetables"
+  },
+  {
+    "id": 8,
+    "name": "Onion",
+    "price": 0.7,
+    "image": "onion.jpg",
+    "category": "Vegetables"
+  },
+  {
+    "id": 9,
+    "name": "Spinach",
+    "price": 1.0,
+    "image": "spinach.jpg",
+    "category": "Vegetables"
+  },
+  {
+    "id": 10,
+    "name": "Tomato",
+    "price": 1.2,
+    "image": "tomato.jpg",
+    "category": "Vegetables"
+  },
+  {
+    "id": 11,
+    "name": "Chips",
+    "price": 1.5,
+    "image": "chips.png",
+    "category": "Snacks"
+  },
+  {
+    "id": 12,
+    "name": "Biscuits",
+    "price": 1.0,
+    "image": "biscuits.jpg",
+    "category": "Snacks"
+  },
+  {
+    "id": 13,
+    "name": "Popcorn",
+    "price": 1.2,
+    "image": "popcorn.png",
+    "category": "Snacks"
+  },
+  {
+    "id": 14,
+    "name": "Chocolate Bar",
+    "price": 1.8,
+    "image": "chocolate_bar.jpg",
+    "category": "Snacks"
+  },
+  {
+    "id": 15,
+    "name": "Crackers",
+    "price": 1.0,
+    "image": "crackers.jpg",
+    "category": "Snacks"
+  },
+  {
+    "id": 16,
+    "name": "Milk",
+    "price": 1.5,
+    "image": "milk.jpg",
+    "category": "Dairy"
+  },
+  {
+    "id": 17,
+    "name": "Cheese",
+    "price": 2.5,
+    "image": "cheese.jpg",
+    "category": "Dairy"
+  },
+  {
+    "id": 18,
+    "name": "Yogurt",
+    "price": 1.0,
+    "image": "yogurt.jpg",
+    "category": "Dairy"
+  },
+  {
+    "id": 19,
+    "name": "Chicken",
+    "price": 4.0,
+    "image": "chicken.jpg",
+    "category": "Meat & Seafood"
+  },
+  {
+    "id": 20,
+    "name": "Beef",
+    "price": 5.0,
+    "image": "beef.jpg",
+    "category": "Meat & Seafood"
+  }
+]
