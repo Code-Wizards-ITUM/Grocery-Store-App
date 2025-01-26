@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
+import '../providers/theme_provider.dart';
 import '../screens/main_screen.dart';
 import 'signup_screen.dart';
 
@@ -40,15 +41,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.isDarkMode;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: 300,
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: isDarkMode ? Colors.green[800] : Colors.green,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(50),
                   bottomRight: Radius.circular(50),
@@ -59,14 +63,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          100), // Adjust the radius value as needed
+                      borderRadius: BorderRadius.circular(100),
                       child: Image.asset(
                         'assets/images/brand.jpg',
                         height: 150,
                         width: 150,
-                        fit: BoxFit
-                            .cover, // Ensures the image fits the rounded rectangle properly
+                        fit: BoxFit.cover,
                       ),
                     ),
                     SizedBox(height: 10),
@@ -92,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Colors.green,
+                      color: isDarkMode ? Colors.white : Colors.green,
                     ),
                   ),
                   SizedBox(height: 10),
@@ -100,32 +102,53 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Login to continue shopping',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey,
+                      color: isDarkMode ? Colors.grey[400] : Colors.grey,
                     ),
                   ),
                   SizedBox(height: 20),
                   TextField(
                     controller: emailController,
+                    style: TextStyle(
+                      color: isDarkMode ? Colors.white : Colors.black,
+                    ),
                     decoration: InputDecoration(
                       labelText: 'Email/Username',
-                      prefixIcon: Icon(Icons.email, color: Colors.green),
+                      labelStyle: TextStyle(
+                        color: isDarkMode ? Colors.white70 : Colors.black54,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.email,
+                        color: isDarkMode ? Colors.white : Colors.green,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: isDarkMode ? Colors.white24 : Colors.grey,
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(height: 15),
                   TextField(
                     controller: passwordController,
+                    style: TextStyle(
+                      color: isDarkMode ? Colors.white : Colors.black,
+                    ),
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      prefixIcon: Icon(Icons.lock, color: Colors.green),
+                      labelStyle: TextStyle(
+                        color: isDarkMode ? Colors.white70 : Colors.black54,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: isDarkMode ? Colors.white : Colors.green,
+                      ),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _passwordVisible
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color: Colors.green,
+                          color: isDarkMode ? Colors.white : Colors.green,
                         ),
                         onPressed: () {
                           setState(() {
@@ -135,6 +158,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: isDarkMode ? Colors.white24 : Colors.grey,
+                        ),
                       ),
                     ),
                     obscureText: !_passwordVisible,
@@ -143,7 +169,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ElevatedButton(
                     onPressed: _login,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor:
+                          isDarkMode ? Colors.green[700] : Colors.green,
                       minimumSize: Size(double.infinity, 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -166,7 +193,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: Text(
                       'Don\'t have an account? Sign Up',
-                      style: TextStyle(color: Colors.green),
+                      style: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.green,
+                      ),
                     ),
                   ),
                 ],

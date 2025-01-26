@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_store_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 
 class ProductCard extends StatefulWidget {
   final Map<String, dynamic> product;
@@ -51,8 +52,11 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Card(
       margin: EdgeInsets.zero,
+      color: isDarkMode ? Colors.grey.shade800 : Colors.white,
       child: Container(
         height: 260,
         padding: EdgeInsets.all(8),
@@ -71,19 +75,20 @@ class _ProductCardState extends State<ProductCard> {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
             Text(
               '\$${widget.product['price'].toStringAsFixed(2)}',
               style: TextStyle(
-                color: Colors.grey[600],
+                color: isDarkMode ? Colors.white70 : Colors.grey[600],
                 fontSize: 14,
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildIconButton(Icons.remove, _decreaseQuantity),
+                _buildIconButton(Icons.remove, _decreaseQuantity, isDarkMode),
                 Container(
                   width: 32,
                   height: 32,
@@ -102,7 +107,10 @@ class _ProductCardState extends State<ProductCard> {
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: isDarkMode ? Colors.white : Colors.black,
+                    ),
                     onChanged: (value) {
                       if (int.tryParse(value) != null) {
                         setState(() {
@@ -112,7 +120,7 @@ class _ProductCardState extends State<ProductCard> {
                     },
                   ),
                 ),
-                _buildIconButton(Icons.add, _increaseQuantity),
+                _buildIconButton(Icons.add, _increaseQuantity, isDarkMode),
               ],
             ),
             SizedBox(
@@ -137,12 +145,14 @@ class _ProductCardState extends State<ProductCard> {
     );
   }
 
-  Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
+  Widget _buildIconButton(
+      IconData icon, VoidCallback onPressed, bool isDarkMode) {
     return InkWell(
       onTap: onPressed,
       child: Container(
         padding: EdgeInsets.all(4),
-        child: Icon(icon, color: Colors.green, size: 20),
+        child: Icon(icon,
+            color: isDarkMode ? Colors.green.shade300 : Colors.green, size: 20),
       ),
     );
   }

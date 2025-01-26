@@ -15,11 +15,11 @@ class UserProvider with ChangeNotifier {
     final List<dynamic> jsonList = json.decode(jsonString);
     _users = jsonList.map((json) => User.fromJson(json)).toList();
   }
-
-  bool login(String username, String password) {
+  bool login(String identifier, String password) {
     try {
-      final user = _users.firstWhere(
-          (user) => user.username == username && user.password == password);
+      final user = _users.firstWhere((user) =>
+          (user.username == identifier || user.email == identifier) &&
+          user.password == password);
       _currentUser = user;
       notifyListeners();
       return true;

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 import 'home_screen.dart';
 import 'cart_screen.dart';
 import 'orders_screen.dart';
@@ -10,10 +12,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // Track the currently selected screen index
   int _currentIndex = 0;
 
-  // List of screens for the bottom navigation bar
   final List<Widget> _screens = [
     HomeScreen(),
     CartScreen(),
@@ -21,7 +21,6 @@ class _MainScreenState extends State<MainScreen> {
     ProfileScreen(),
   ];
 
-  // Handle navigation item tap
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -30,14 +29,20 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      body:
-          _screens[_currentIndex], // Display the screen based on selected index
+      body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex, // Highlight the selected tab
-        onTap: _onItemTapped, // Update the selected index on tap
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
+        currentIndex: _currentIndex,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor:
+            themeProvider.isDarkMode ? Colors.white : Colors.black,
+        unselectedItemColor:
+            themeProvider.isDarkMode ? Colors.grey[400] : Colors.grey,
+        backgroundColor:
+            themeProvider.isDarkMode ? Colors.grey[900] : Colors.white,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(

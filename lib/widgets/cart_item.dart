@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
+import '../providers/theme_provider.dart';
 import '../models/cart_item_model.dart';
 
 class CartItemWidget extends StatelessWidget {
@@ -11,6 +12,7 @@ class CartItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return Dismissible(
       key: ValueKey(cartItem.id),
@@ -41,11 +43,11 @@ class CartItemWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
+        color: isDarkMode ? Colors.grey.shade800 : Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Row(
             children: [
-              // Product Image
               Container(
                 width: 80,
                 height: 80,
@@ -67,12 +69,16 @@ class CartItemWidget extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
+                        color: isDarkMode ? Colors.white : Colors.black,
                       ),
                     ),
                     SizedBox(height: 4),
                     Text(
                       'Price: \$${cartItem.price.toStringAsFixed(2)}',
-                      style: TextStyle(color: Colors.grey.shade600),
+                      style: TextStyle(
+                        color:
+                            isDarkMode ? Colors.white70 : Colors.grey.shade600,
+                      ),
                     ),
                   ],
                 ),
@@ -82,7 +88,10 @@ class CartItemWidget extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.remove_circle, color: Colors.red),
+                        icon: Icon(
+                          Icons.remove_circle,
+                          color: isDarkMode ? Colors.red.shade300 : Colors.red,
+                        ),
                         onPressed: cartItem.quantity > 1
                             ? () => cartProvider.decreaseQuantity(cartItem.id)
                             : null,
@@ -92,10 +101,15 @@ class CartItemWidget extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
+                          color: isDarkMode ? Colors.white : Colors.black,
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.add_circle, color: Colors.green),
+                        icon: Icon(
+                          Icons.add_circle,
+                          color:
+                              isDarkMode ? Colors.green.shade300 : Colors.green,
+                        ),
                         onPressed: () =>
                             cartProvider.increaseQuantity(cartItem.id),
                       ),
@@ -105,7 +119,9 @@ class CartItemWidget extends StatelessWidget {
                     'Total: \$${(cartItem.price * cartItem.quantity).toStringAsFixed(2)}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.green.shade700,
+                      color: isDarkMode
+                          ? Colors.green.shade300
+                          : Colors.green.shade700,
                     ),
                   ),
                 ],
@@ -118,19 +134,40 @@ class CartItemWidget extends StatelessWidget {
   }
 
   Future<bool?> _confirmRemoval(BuildContext context) {
+    final isDarkMode =
+        Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
+
     return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Remove Item'),
-        content: Text('Do you want to remove ${cartItem.name} from the cart?'),
+        title: Text(
+          'Remove Item',
+          style: TextStyle(
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
+        ),
+        content: Text(
+          'Do you want to remove ${cartItem.name} from the cart?',
+          style: TextStyle(
+            color: isDarkMode ? Colors.white70 : Colors.black87,
+          ),
+        ),
+        backgroundColor: isDarkMode ? Colors.grey.shade800 : Colors.white,
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                color: isDarkMode ? Colors.white70 : Colors.grey,
+              ),
+            ),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
             child: const Text('Remove'),
           ),
         ],

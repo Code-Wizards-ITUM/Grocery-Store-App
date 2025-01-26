@@ -9,8 +9,9 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     final user = userProvider.currentUser;
+    final isDarkMode = themeProvider.isDarkMode;
 
     return Scaffold(
       appBar: AppBar(
@@ -20,38 +21,24 @@ class ProfileScreen extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: Colors.green,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: user != null
-                ? () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => EditProfileScreen(
-                              user: user, username: user.username)),
-                    );
-                  }
-                : null,
-          ),
-          Switch(
-            value: Provider.of<ThemeProvider>(context).isDarkMode,
-            onChanged: (_) {
-              themeProvider.toggleTheme();
-            },
-          ),
-        ],
       ),
       body: user == null
           ? Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.person_off, size: 100, color: Colors.grey),
+                  Icon(
+                    Icons.person_off,
+                    size: 100,
+                    color: isDarkMode ? Colors.white70 : Colors.grey,
+                  ),
                   SizedBox(height: 16),
                   Text(
                     'Please log in to view your profile',
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: isDarkMode ? Colors.white70 : Colors.grey,
+                    ),
                   ),
                   SizedBox(height: 16),
                   ElevatedButton(
@@ -72,18 +59,68 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Theme Switch with Accessibility
+                        Tooltip(
+                          message: isDarkMode
+                              ? 'Switch to Light Mode'
+                              : 'Switch to Dark Mode',
+                          child: Row(
+                            children: [
+                              Text('Theme:'),
+                              SizedBox(width: 10),
+                              Switch(
+                                key: Key('theme-switch'),
+                                value: isDarkMode,
+                                // semanticLabel: 'Toggle Theme',
+                                activeColor: Colors.white,
+                                activeTrackColor: Colors.green.shade700,
+                                inactiveTrackColor: Colors.grey.shade300,
+                                onChanged: (_) {
+                                  themeProvider.toggleTheme();
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Edit Profile Button
+                        IconButton(
+                          key: Key('edit-profile-btn'),
+                          icon: Icon(Icons.edit, color: Colors.green),
+                          tooltip: 'Edit Profile',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => EditProfileScreen(
+                                    user: user, username: user.username),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
                     Center(
                       child: CircleAvatar(
                         radius: 60,
-                        backgroundColor: Colors.green.shade100,
-                        child:
-                            Icon(Icons.person, size: 80, color: Colors.green),
+                        backgroundColor: isDarkMode
+                            ? Colors.green.shade800
+                            : Colors.green.shade100,
+                        child: Icon(
+                          Icons.person,
+                          size: 80,
+                          color:
+                              isDarkMode ? Colors.green.shade300 : Colors.green,
+                        ),
                       ),
                     ),
                     SizedBox(height: 20),
-                    _buildProfileDetail('Name', user.name),
-                    _buildProfileDetail('Email', user.email),
-                    _buildProfileDetail('Phone', user.phone),
+                    _buildProfileDetail('Name', user.name, isDarkMode),
+                    _buildProfileDetail('Email', user.email, isDarkMode),
+                    _buildProfileDetail('Phone', user.phone, isDarkMode),
                     SizedBox(height: 20),
                     Center(
                       child: ElevatedButton.icon(
@@ -109,7 +146,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileDetail(String label, String value) {
+  Widget _buildProfileDetail(String label, String value, bool isDarkMode) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
@@ -128,12 +165,15 @@ class ProfileScreen extends StatelessWidget {
             width: double.infinity,
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: isDarkMode ? Colors.grey.shade800 : Colors.grey.shade100,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
               value,
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(
+                fontSize: 16,
+                color: isDarkMode ? Colors.white70 : Colors.black87,
+              ),
             ),
           ),
         ],

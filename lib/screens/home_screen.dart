@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 import 'package:grocery_store_app/services/json_service.dart';
 import '../widgets/product_card.dart';
 
@@ -8,7 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // final categories = ['All', 'Fruits', 'Vegetables', 'Snacks'];
   final categories = [
     'All',
     'Fruits',
@@ -48,13 +49,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.isDarkMode;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Home',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: isDarkMode ? Colors.green[800] : Colors.green,
         centerTitle: true,
       ),
       body: Column(
@@ -62,11 +69,23 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: EdgeInsets.all(16),
             child: TextField(
+              style: TextStyle(
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
               decoration: InputDecoration(
                 hintText: 'Search products...',
-                prefixIcon: Icon(Icons.search),
+                hintStyle: TextStyle(
+                  color: isDarkMode ? Colors.white70 : Colors.grey,
+                ),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: isDarkMode ? Colors.white : Colors.black54,
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(
+                    color: isDarkMode ? Colors.white24 : Colors.grey,
+                  ),
                 ),
                 contentPadding: EdgeInsets.symmetric(vertical: 0),
               ),
@@ -91,12 +110,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       filterProducts('');
                     });
                   },
-                  backgroundColor: Colors.grey[200],
-                  selectedColor: Colors.green,
+                  backgroundColor:
+                      isDarkMode ? Colors.grey[700] : Colors.grey[200],
+                  selectedColor: isDarkMode ? Colors.green[700] : Colors.green,
                   labelStyle: TextStyle(
                     color: _selectedCategory == category
                         ? Colors.white
-                        : Colors.black,
+                        : (isDarkMode ? Colors.white70 : Colors.black),
                   ),
                 );
               },
